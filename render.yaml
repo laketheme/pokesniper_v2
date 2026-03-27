@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: stockbot
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free          # upgrade to starter for persistent disk
+    envVars:
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false     # set manually in Render dashboard
+      - key: WEBHOOK_URL
+        sync: false     # set to your Render service URL
+      - key: POLL_INTERVAL_SECONDS
+        value: "20"
+      - key: MAX_CONCURRENT_CHECKS
+        value: "15"
+    disk:
+      name: stockbot-data
+      mountPath: /app
+      sizeGB: 1
+    healthCheckPath: /health
